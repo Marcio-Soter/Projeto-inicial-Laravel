@@ -15,14 +15,12 @@ class VerifyAuthentication
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Verifica se o usuário está logado
-        // Verifica se o tipo do usuário na sessão é 'admin'
+        // Verifica se o usuário está logado e o tipo do usuário na sessão é 'admin'
         if (!session()->has('usuario_id') || session('usuario_tipo') !== 'admin') {
             // return redirect('/');
 
             // Se não for admin, redireciona para a home com uma mensagem de erro (opcional):
-            return redirect()->route('home')->with('erro', 'Acesso restrito apenas para administradores.');;
-        }
+            return redirect()->route('home')->with('erro', 'Acesso restrito apenas para administradores.');        }
 
         return $next($request);
     }

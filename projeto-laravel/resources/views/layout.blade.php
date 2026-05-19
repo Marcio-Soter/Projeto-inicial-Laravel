@@ -31,6 +31,20 @@
         </div>
     @endif
 
+   @if(session('usuario_tipo') === 'admin')
+        <div class="flex gap-4 bg-gray-800 p-3 rounded-lg shadow-md mb-6">
+            <a href="{{ route('livros.create') }}" class="text-white hover:text-blue-400 transition font-medium">
+                + Novo Livro
+            </a>
+            <a href="{{ route('usuarios.index') }}" class="text-white hover:text-blue-400 transition font-medium">
+                👥 Usuários
+            </a>
+            <a href="{{ route('emprestimos.index') }}" class="text-white hover:text-blue-400 transition font-medium border-l border-gray-600 pl-4">
+                📋 Gerenciar Empréstimos
+            </a>
+        </div>
+    @endif
+
 </div>
 <!-- FIM DO BLOCO DE MENSAGENS -->
 
