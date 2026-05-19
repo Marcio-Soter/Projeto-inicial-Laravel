@@ -1,4 +1,4 @@
-<header class="bg-gray-800 text-white py-5 border-b border-gray-700 shadow-md">
+<header class="bg-gray-800 text-white py-3 border-b border-gray-700 shadow-md sticky top-0 z-50">
     <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
 
         {{-- Logo/Título com imagem acima --}}
@@ -6,7 +6,7 @@
     <a href="{{ route('home') }}" class="flex flex-col items-center md:items-start hover:text-gray-300 transition-colors">
         
         {{-- A sua imagem aqui --}}
-        <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="h-[150px] w-auto mb-1">
+        <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="h-[130px] w-auto mb-1">
         
         <span>
             Biblioteca Virtual<span class="text-green-500"></span>
