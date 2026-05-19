@@ -35,6 +35,20 @@
                 <p class="text-xs text-gray-500 mt-1">Formatos aceitos: JPG, PNG. Máx: 2MB.</p>
             </div>
 
+            <div class="mb-4">
+                <label for="arquivo_pdf" class="block text-gray-700 font-bold mb-2">
+                    Anexar Livro Digital (PDF):
+                </label>
+                <input type="file" 
+                    name="arquivo_pdf" 
+                    id="arquivo_pdf" 
+                    accept="application/pdf" 
+                    class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                <p class="text-xs text-gray-500 mt-1 italic">
+                    * Campo opcional. Selecione o PDF caso deseje disponibilizar para download.
+                </p>
+            </div>
+
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Quantidade de Exemplares</label>
                 <input type="number" name="quantidade" min="1" required placeholder="Ex: 5"

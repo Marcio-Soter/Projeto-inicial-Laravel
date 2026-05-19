@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sistema</title>
+    <title>Biblioteca Virtual</title>
+
+    <link rel="icon" type="image/png" href="{{ asset('/images/logo.png') }}">
 
     <!-- Tailwind GLOBAL -->
     <script src="https://cdn.tailwindcss.com"></script>
+    {{-- Link do Google Fonts aqui dentro do HEAD --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
@@ -33,14 +37,14 @@
 
    @if(session('usuario_tipo') === 'admin')
         <div class="flex gap-4 bg-gray-800 p-3 rounded-lg shadow-md mb-6">
-            <a href="{{ route('livros.create') }}" class="text-white hover:text-blue-400 transition font-medium">
+            <a href="{{ route('livros.create') }}" class="text-white hover:text-blue-400 transition font-medium ">
                 + Novo Livro
             </a>
-            <a href="{{ route('usuarios.index') }}" class="text-white hover:text-blue-400 transition font-medium">
-                👥 Usuários
+            <a href="{{ route('usuarios.index') }}" class="text-white hover:text-blue-400 transition font-medium border-l border-gray-600 pl-4">
+                 Usuários
             </a>
             <a href="{{ route('emprestimos.index') }}" class="text-white hover:text-blue-400 transition font-medium border-l border-gray-600 pl-4">
-                📋 Gerenciar Empréstimos
+                 Gerenciar Empréstimos
             </a>
         </div>
     @endif
@@ -99,6 +103,8 @@ function fecharModal() {
     // document.getElementById('loginModal').classList.remove('flex');
 }
 </script>
+
+@include('footer')
 
 </body>
 </html>

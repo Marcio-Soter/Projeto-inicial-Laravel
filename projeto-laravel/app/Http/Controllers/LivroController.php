@@ -27,11 +27,13 @@ class LivroController extends Controller
             'categoria' => 'required|string|max:100',
             'quantidade' => 'required|integer|min:1',
             'capa' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', // Valida se é imagem e tem até 2MB
-            
+            'arquivo_pdf' => 'nullable|mimes:pdf|max:10000', // Valida se é PDF até 10MB
+    
         ]);
 
 
         $caminhoImagem = null;
+        $caminhoPdf = null; // variável para o PDF
 
 
         // Lógica de Upload da Imagem
@@ -57,6 +59,31 @@ class LivroController extends Controller
         }
 
 
+        // 3. Lógica de Upload do PDF (Seguindo o teu padrão)
+        if ($request->hasFile('arquivo_pdf')) {
+            $pdf = $request->file('arquivo_pdf');
+            
+            // Gera nome único para o PDF
+            $nomePdf = time() . '_conteudo.' . $pdf->getClientOriginalExtension();
+            
+            // Define o destino 'public/arquivos/pdfs'
+            $destinoPdf = public_path('arquivos/pdfs');
+
+            // Cria a pasta se não existir (mesma lógica que usaste para a capa)
+            if (!File::isDirectory($destinoPdf)) {
+                File::makeDirectory($destinoPdf, 0777, true, true);
+            }
+
+            // Move o PDF
+            $pdf->move($destinoPdf, $nomePdf);
+            
+            // Caminho para o banco
+            $caminhoPdf = 'arquivos/pdfs/' . $nomePdf;
+        }
+
+
+
+
         // Cria o livro no banco de dados usando o Model
         Livro::create([
             'titulo' => $request->titulo,
@@ -64,6 +91,7 @@ class LivroController extends Controller
             'categoria' => $request->categoria,
             'quantidade' => $request->quantidade,
             'capa' => $caminhoImagem, // Novo campo salvo aqui
+            'arquivo_pdf' => $caminhoPdf, // Adicionamos o novo campo aqui
         ]);
 
         // Redireciona de volta para a Home com uma mensagem de sucesso
@@ -138,6 +166,8 @@ class LivroController extends Controller
         'autor' => 'required',
         'categoria' => 'required',
         'quantidade' => 'required|integer',
+        'capa' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        'arquivo_pdf' => 'nullable|mimes:pdf|max:10000',
     ]);
 
     // 3. Atualiza os dados (exceto a imagem por enquanto para não dar erro)
@@ -146,6 +176,7 @@ class LivroController extends Controller
         'autor' => $request->autor,
         'categoria' => $request->categoria,
         'quantidade' => $request->quantidade,
+        
     ]);
 
     // 4. Lógica para atualizar a CAPA (se você enviou uma nova foto)
@@ -153,6 +184,27 @@ class LivroController extends Controller
         $nomeCapa = time() . '.' . $request->capa->extension();
         $request->capa->move(public_path('images/livros'), $nomeCapa);
         $livro->capa = 'images/livros/' . $nomeCapa;
+        $livro->save();
+    }
+
+    // 5. Lógica para atualizar o PDF (Seguindo o mesmo padrão do seu Store)
+    if ($request->hasFile('arquivo_pdf')) {
+        $pdf = $request->file('arquivo_pdf');
+        
+        // Mantendo o padrão de nomeação que fizemos no Store
+        $nomePdf = time() . '_conteudo.' . $pdf->getClientOriginalExtension();
+        
+        $destinoPdf = public_path('arquivos/pdfs');
+
+        // Cria a pasta se não existir, como você fez no Store
+        if (!File::isDirectory($destinoPdf)) {
+            File::makeDirectory($destinoPdf, 0777, true, true);
+        }
+
+        $pdf->move($destinoPdf, $nomePdf);
+        
+        // Atualiza o caminho no banco
+        $livro->arquivo_pdf = 'arquivos/pdfs/' . $nomePdf;
         $livro->save();
     }
 

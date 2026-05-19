@@ -4,7 +4,7 @@
 
 {{-- Banner de Boas-vindas --}}
 <div class="h-64 flex flex-col items-center justify-center p-6 text-center bg-cover bg-center text-white shadow-md"
-     style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/166.jpg');">
+     style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/16.jpg');">
      
     <h1 class="text-4xl font-bold mb-2 tracking-wide">
         Bem-vindo à Biblioteca Virtual
@@ -103,8 +103,20 @@
                         <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded-full">
                             Disponível ({{ $livro->quantidade }})
                         </span>
+
+                        {{-- Opção de Download Digital (Ícone Google Fonts) --}}
+                        @if($livro->arquivo_pdf)
+                        <div class="mt-4 flex justify-end">
+                            <a href="{{ asset($livro->arquivo_pdf) }}" 
+                            target="_blank" 
+                            download 
+                            title="Baixar Versão Digital (PDF)"
+                            class="inline-flex items-center justify-center w-10 h-10 bg-gray-50 text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-100 transition shadow-sm">
+                                <span class="material-symbols-outlined text-[20px]">download</span>
+                            </a>
+                        </div>
+                        @endif
                         
-                        {{-- Botão Solicitar visível para qualquer logado --}}
                         @if(session('usuario_id'))
                         <form action="{{ route('emprestimos.store', $livro->id) }}" method="POST">
                             @csrf
@@ -119,6 +131,8 @@
                         </span>
                     @endif
                 </div>
+
+                
 
                 {{-- Botões de Gestão (SÓ ADMIN VÊ) --}}
                 @if(session('usuario_tipo') === 'admin')
