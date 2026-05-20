@@ -52,7 +52,7 @@
                         </form>
                     </div>
                 @else
-                    <button onclick="abrirModal()" class="bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-500 transition-all shadow-sm">
+                    <button id="btn-abrir-login" class="bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-500 transition-all shadow-sm">
                         Login
                     </button>
                 @endif

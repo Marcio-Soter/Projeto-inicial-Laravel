@@ -1,104 +1,63 @@
-
 @extends('layout')
 
 @section('content')
 
-<body>
-
-
-<div class="p-4 flex flex-col items-center">
+<div class="max-w-5xl mx-auto p-6">
     
-    <h1 class="text-2xl font-bold p-4">Lista de Usuários</h1>
-   @foreach ($usuarios as $u)
-    <div class="flex items-center gap-3 mb-3 p-3 border-4 border-gray-400 bg-gray-50 rounded-xl  max-w-2xl">
-
+    {{-- Cabeçalho da Página --}}
+    <div class="flex justify-between items-center mb-8">
         <div>
-            <strong>Nome:</strong> {{ $u->nome }} 
-            - <strong>Email:</strong> {{ $u->email }}
+            <h1 class="text-3xl font-extrabold text-gray-800 tracking-tight">Lista de Usuários</h1>
+            <p class="text-gray-500">Gerencie os membros da sua biblioteca</p>
         </div>
-
-        <div class="flex gap-2">
-
-            <a href="{{ route('usuarios.edit', $u->id) }}">
-                <button class="bg-blue-500 text-white px-2 py-1 rounded">
-                    Editar
-                </button>
-            </a>
-
-            <form action="{{ route('usuarios.destroy', $u->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button class="bg-red-500 text-white px-2 py-1 rounded">
-                    Excluir
-                </button>
-            </form>
-
-        </div>
-
+        <a href="{{ route('home') }}" class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl font-bold hover:bg-gray-200 transition-all">
+            Voltar
+        </a>
     </div>
-@endforeach
 
-<a href="{{ route('home') }}">
-    <button class="m-4 bg-gray-600 text-white px-4 py-2 rounded">
-        Voltar
-    </button>
-</a>
+    {{-- Grid de Usuários --}}
+    <div class="grid gap-4">
+        @foreach ($usuarios as $u)
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-2 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                
+                <div class="flex items-center gap-4">
+                    {{-- Ícone de Avatar --}}
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">{{ $u->nome }}</h3>
+                        <p class="text-gray-500 text-sm">{{ $u->email }}</p>
+                    </div>
+                </div>
 
-</div>
+                <div class="flex gap-2">
+                    {{-- Botão Editar --}}
+                    <a href="{{ route('usuarios.edit', $u->id) }}" 
+                       class="flex items-center gap-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-all text-sm">
+                        <span class="material-symbols-outlined text-sm">edit</span> 
+                    </a>
 
+                    {{-- Botão Excluir --}}
+                    <form action="{{ route('usuarios.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="flex items-center gap-1 bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold hover:bg-red-600 hover:text-white transition-all text-sm">
+                            <span class="material-symbols-outlined text-sm">delete</span> 
+                        </button>
+                    </form>
+                </div>
 
-<!-- 🔹 MODAL -->
-<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-
-    <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
-
-        <button onclick="fecharModal()" class="absolute top-2 right-2">
-            ✕
-        </button>
-
-        <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
-
-        @if(session('erro'))
-            <div class="bg-red-100 text-red-700 p-2 mb-3 rounded">
-                {{ session('erro') }}
             </div>
-        @endif
-
-        <form method="POST" action="/login">
-            @csrf
-
-            <input type="email" name="email" placeholder="Email"
-                class="w-full border rounded px-3 py-2 mb-3">
-
-            <input type="password" name="password" placeholder="Senha"
-                class="w-full border rounded px-3 py-2 mb-3">
-
-            <button class="w-full bg-green-600 text-white py-2 rounded">
-                Entrar
-            </button>
-        </form>
+        @endforeach
     </div>
+
+    @if($usuarios->isEmpty())
+        <div class="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+            <p class="text-gray-500 font-medium">Nenhum usuário cadastrado até o momento.</p>
+        </div>
+    @endif
+
 </div>
-
-<script>
-function abrirModal() {
-    document.getElementById('loginModal').classList.remove('hidden');
-    document.getElementById('loginModal').classList.add('flex');
-}
-
-function fecharModal() {
-    document.getElementById('loginModal').classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('flex');
-}
-
-
-</script>
-
-@if(session('erro'))
-    abrirModal();
-@endif
-</body>
-</html>
-
 
 @endsection

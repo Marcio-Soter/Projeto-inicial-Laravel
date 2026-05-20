@@ -6,7 +6,7 @@
 <div class="h-64 flex flex-col items-center justify-center p-6 text-center bg-cover bg-center text-white shadow-md"
      style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/16.jpg');">
      
-    <h1 class="text-4xl font-bold mb-2 tracking-wide">
+    <h1 id="titulo-biblioteca" class="text-4xl font-bold text-yellow-400 mb-2 tracking-wide">
         Bem-vindo à Biblioteca Virtual
     </h1>
     
